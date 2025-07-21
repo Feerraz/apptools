@@ -2,11 +2,8 @@
 
 import React, { useState } from 'react'
 import {
-  AppstoreOutlined,
   CalendarOutlined,
   ClockCircleOutlined,
-  MailOutlined,
-  SettingOutlined,
 } from '@ant-design/icons'
 
 import { Divider, Menu, Switch } from 'antd'

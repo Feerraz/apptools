@@ -573,10 +573,10 @@
   dependencies:
     csstype "^3.0.2"
 
-antd-imask-input@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/antd-imask-input/-/antd-imask-input-1.0.6.tgz#67c3ed2562bdc12f12287657c4a05148b3da7940"
-  integrity sha512-ryWqbHFKNjb8s3gXZFzV1J2UtdYRr20I38G8UGGAvAgh8QGhGADVuhPDfDtnyN7vIzj1jb89Q62ylU5Enf9L+g==
+antd-imask-input@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/antd-imask-input/-/antd-imask-input-1.0.7.tgz#d98d51556f650ebe33eaf41d9cdf0d0ba73744ac"
+  integrity sha512-hooOtDKIjowEMf/utMneX9ojjrKba1xy+TUWRa99ESQtQX/t6cqtXgfn1/jSD9vTPZzAJ7HtxfYQ8lBrgf08OQ==
   dependencies:
     imask "^7"
 

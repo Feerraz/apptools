@@ -1,3 +1,3 @@
-import Index from '@/pages/menu'
+import Index from '@/src/pages/menu'
 
 export default Index
