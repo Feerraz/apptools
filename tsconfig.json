@@ -1,10 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -13,10 +18,44 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "rootDir": "./",
+    "removeComments": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types"
+    ],
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "sourceMap": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "compileOnSave": true,
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/.next/types/**/*.ts",
+    "**/build/types/**/*.ts",
+    "**/next-env.d.ts",
+    "build/types/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/public",
+    "**/build"
+  ],
+  "tsx": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }
