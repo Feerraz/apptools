@@ -31,7 +31,7 @@ function Index() {
         maskOptions={{
           lazy: true
         }}
-        placeholder='type here'
+        placeholder='Digite a quantidade de minutos'
         size='large'
         value={value}
         onChange={e => setValue(e.target.value)}
