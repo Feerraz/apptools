@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "antd": "^5.26.5",
-    "antd-imask-input": "^1.0.7",
+    "antd-imask-input": "^1.1.0",
     "imask": "^7.6.1",
     "next": "15.4.1",
     "react": "19.1.0",

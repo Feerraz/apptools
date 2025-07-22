@@ -1,71 +1,60 @@
 import MenuPage from '../menu'
-import MaskedInput from 'antd-imask-input'
-import { ReactNode } from 'react'
+import { MaskedInput } from 'antd-imask-input'
+import { useState } from 'react'
+import { Hours } from '@/src/types/hours'
 
-function MaskedMinutes() {
+function Index() {
 
-  return (
-    <MaskedInput
-      mask={ '000' }
-      maskOptions={ {
-        lazy: false
-      } }
-      placeholder={ 'Digite a quantidade de minutos' }
-      size={ 'large' }
-      allowClear={ false }
-      autoComplete='off'
+  const [value, setValue] = useState('')
+  const [result, setResult] = useState<Hours>([])
 
-    />
-  )
-}
+  const calcular = (value: string) => {
+    const qtdHour = Math.floor(Number(value) / 60)
+    const qtdMin = Number(value) % 60
 
-function MyMaskedInputComponent() {
-  return (
-    <MaskedInput
-      mask={ '00:00' }
-      maskOptions={ {
-        lazy: true // makes mask placeholder invisible
-      } }
-      placeholder={ 'Resultado' }
-      size={ 'large' }
-      allowClear={ true }
-      autoComplete='off'
-      disabled
-    />
-  )
-}
+    const horaStr = String(qtdHour).padStart(2, '0')
+    const minStr = String(qtdMin).padStart(2, '0')
 
 
-
-function Index(): ReactNode {
-
-  const calcular = () => {
-
-    const qtdMin = document.getElementById( 'qtdMin' ) as HTMLInputElement
-    const qtdMinutos = Number( qtdMin.value )
-    const qtdHour = Math.floor( qtdMinutos / 60 )
-    const qtdMinRest = qtdMinutos % 60
-
-    //alert( `${ qtdHour }:${ qtdMinRest }` )
-    return ( document.getElementById( 'resultado' ) as HTMLInputElement ).value = `${ qtdHour }:${ qtdMinRest }`
+    return (
+      setResult(result => [...result, 
+        { horas: horaStr, 
+          minutos: minStr, 
+          qtdMin: value }])
+    )
   }
 
+  function MaskedMinutes() {
+    return (
+      <MaskedInput
+        mask={Number}
+        maskOptions={{
+          lazy: true
+        }}
+        placeholder='type here'
+        size='large'
+        value={value}
+        onChange={e => setValue(e.target.value)}
+      />
+    )
+  }
 
   return (
     <div>
       <MenuPage />
-      <div style={ { marginLeft: '256px', padding: '20px' } }>
-        <h1>Minutos para Horas</h1>
-        <label style={ { display: 'block', marginBottom: '4px' } }>
+      <div style={{ marginLeft: '256px', padding: '20px' }}>
+        <h1 className='titulo-gradiente'>Minutos para Horas</h1>
+        <label style={{ display: 'block', marginBottom: '4px' }}>
           <MaskedMinutes />
         </label>
-        <label style={ { display: 'block', marginBottom: '4px' } }>
-          Resultado:
-          <input type="text" id='resultado' disabled />
-          <MyMaskedInputComponent />
-        </label>
-        <button onClick={ calcular }>Calcular</button>
-
+        <button className='button-calculate' onClick={() => calcular(value)}>Calcular</button>
+        <div className='divMinuteToHour'> Resultados:
+        <ul style={{ listStyleType: 'none'}}>
+            {result.map((item, index) => (
+              <li key={index}>{item.qtdMin} - {item.horas}:{item.minutos}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )

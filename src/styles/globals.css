@@ -1,26 +1,63 @@
-/* @import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-} */
+}
+
+
+.titulo-gradiente {
+  font-size: 42px;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(to right, #2c2c2c, #666666);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 1.2px;
+  user-select: none;
+  margin-bottom: 30px;
+}
+
+
+
+.divMinuteToHour {
+  font-size: 20px;
+  text-align: left;
+  display: solid;
+  background-color: #f7f7f7; 
+}
+
+
+.button-calculate {
+  background-color: #333333;      
+  color: #ffffff;                 
+  font-size: 10px;
+  font-weight: 600;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  user-select: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.button-calculate:hover {
+  background-color: #555555;      
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.button-calculate:active {
+  background-color: #222222;      
+  box-shadow: inset 0 3px 5px rgba(0,0,0,0.4);
+}
