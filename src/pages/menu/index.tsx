@@ -31,7 +31,12 @@ const Index: React.FC = () => {
     if ( e.key === 'minHor' ) {
       router.push( '/minuteToHour' )
     }
-    // Add other menu item handlers here
+    if ( e.key === 'horTra' ) {
+      router.push( '/hoursWorked' )
+    }
+    if ( e.key === 'calHor' ) {
+      router.push( '/calcHours' )
+    }
   }
 
   const items: MenuItem[] = [
@@ -42,8 +47,8 @@ const Index: React.FC = () => {
       children: [
         { key: 'horMin', label: 'Horas para minutos', onClick: handleMenuClick },
         { key: 'minHor', label: 'Minutos para horas', onClick: handleMenuClick },
-        { key: 'horTra', label: 'Horas trabalhadas', },
-        { key: 'CalHor', label: 'Calculadora de horas', },
+        { key: 'horTra', label: 'Horas trabalhadas', onClick: handleMenuClick },
+        { key: 'calHor', label: 'Calculadora de horas', onClick: handleMenuClick },
       ],
     },
     {

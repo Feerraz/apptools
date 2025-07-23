@@ -34,7 +34,7 @@ function Index() {
     <div>
       <MenuPage />
       <div style={ { marginLeft: '256px', padding: '20px' } }>
-        <h1 className='titulo-gradiente'>Minutos para Horas</h1>
+        <h1 className='titulo-gradiente'>Horas Trabalhadas</h1>
         <label style={ { display: 'block', marginBottom: '4px' } }>
           <MaskedInput
             mask={ Number }

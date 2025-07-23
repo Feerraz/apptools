@@ -2,6 +2,7 @@ import MenuPage from '../menu'
 import { MaskedInput } from 'antd-imask-input'
 import { useState } from 'react'
 import { Hours } from '@/src/types/hours'
+import { Input } from 'antd'
 
 function Index() {
 
@@ -34,8 +35,8 @@ function Index() {
     <div>
       <MenuPage />
       <div style={ { marginLeft: '256px', padding: '20px' } }>
-        <h1 className='titulo-gradiente'>Minutos para Horas</h1>
-        <label style={ { display: 'block', marginBottom: '4px' } }>
+        <h1 className='titulo-gradiente'>Calculadora de Horas</h1>
+        <label style={ { display: 'flex', marginBottom: '4px', maxWidth: '500px' } }>
           <MaskedInput
             mask={ Number }
             maskOptions={ {
@@ -46,8 +47,20 @@ function Index() {
             value={ value }
             onChange={ e => setValue( e.target.value ) }
           />
+          <Input
+            placeholder='Resultado'
+            size='large'
+            value={ value }
+            onChange={ e => setValue( e.target.value ) }
+          />
         </label>
-        <button className='button-calculate' onClick={ () => calcular( value ) }>Calcular</button>
+        <div style={ {} }>
+          <button className='button-calculate' onClick={ () => calcular( value ) }>+</button>
+          <button className='button-calculate' onClick={ () => calcular( value ) }>-</button>
+          <button className='button-calculate' onClick={ () => calcular( value ) }>*</button>
+          <button className='button-calculate' onClick={ () => calcular( value ) }>/</button>
+          <button className='button-calculate' onClick={ () => calcular( value ) }>Calcular</button>
+        </div>
         <div className='divMinuteToHour'> Resultados:
           <ul style={ { listStyleType: 'none' } }>
             { result.map( ( item, index ) => (
