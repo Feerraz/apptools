@@ -1,0 +1,6 @@
+{
+  "hosting": {
+    "site": "apptools-ncinfo",
+    "public": "public"
+  }
+}

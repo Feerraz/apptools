@@ -1,12 +1,10 @@
 "use client"
-
-import React, { useState } from 'react'
 import {
   CalendarOutlined,
   ClockCircleOutlined,
 } from '@ant-design/icons'
 
-import { Divider, Menu, Switch } from 'antd'
+import { Menu } from 'antd'
 import type { GetProp, MenuProps } from 'antd'
 import { useRouter } from 'next/navigation'
 
@@ -15,11 +13,7 @@ type MenuItem = GetProp<MenuProps, 'items'>[ number ]
 
 
 const Index: React.FC = () => {
-  const [ mode, setMode ] = useState<'vertical' | 'inline'>( 'inline' )
-
-  const changeMode = ( value: boolean ) => {
-    setMode( value ? 'vertical' : 'inline' )
-  }
+  const mode = 'inline'
 
   const router = useRouter()
 
@@ -37,6 +31,20 @@ const Index: React.FC = () => {
     if ( e.key === 'calHor' ) {
       router.push( '/calcHours' )
     }
+
+    if ( e.key === 'cenDec' ) {
+      router.push( '/centToDec' )
+    }
+    if ( e.key === 'decCen' ) {
+      router.push( '/DecToCent' )
+    }
+    if ( e.key === 'CenHor' ) {
+      router.push( '/CentToHour' )
+    }
+    if ( e.key === 'HorCen' ) {
+      router.push( '/HourToCent' )
+    }
+
   }
 
   const items: MenuItem[] = [
@@ -56,10 +64,10 @@ const Index: React.FC = () => {
       icon: <CalendarOutlined />,
       label: 'Centesimais',
       children: [
-        { key: 'cenDec', label: 'Centesimal para decimal' },
-        { key: 'decCen', label: 'Decimal para centesimal' },
-        { key: 'CenHor', label: 'Centesimal para horas' },
-        { key: 'HorCen', label: 'Horas para centesimal' },
+        { key: 'cenDec', label: 'Centesimal para decimal', onClick: handleMenuClick },
+        { key: 'decCen', label: 'Decimal para centesimal', onClick: handleMenuClick },
+        { key: 'CenHor', label: 'Centesimal para horas', onClick: handleMenuClick },
+        { key: 'HorCen', label: 'Horas para centesimal', onClick: handleMenuClick },
       ],
     }
   ]
