@@ -1,61 +1,49 @@
 import MenuPage from '../menu'
-import { MaskedInput } from 'antd-imask-input'
 import { useState } from 'react'
-import { Hours } from '@/src/types/hours'
 
 function Index() {
-
-  const [ value, setValue ] = useState( '' )
-  const [ result, setResult ] = useState<Hours>( [] )
-
-  const calcular = ( value: string ) => {
-    const qtdHour = Math.floor( Number( value ) / 60 )
-    const qtdMin = Number( value ) % 60
-
-    const horaStr = String( qtdHour ).padStart( 2, '0' )
-    const minStr = String( qtdMin ).padStart( 2, '0' )
-
-    if ( value == '' ) {
-      return
-    }
-
-    return (
-      setResult( result => [ ...result,
-      {
-        horas: horaStr,
-        minutos: minStr,
-        qtdMin: value
-      } ] )
-    )
+  type Turnos = {
+    entrada: string
+    saida: string
   }
 
+  const [turno, setTurnos] = useState<Turnos[]>([
+    { entrada: '00:00', saida: '00:00' }
+  ])
+
+  const addTurno = () => {
+    setTurnos([...turno, { entrada: '', saida: '' }])
+  }
+
+  const handleAddTurno = (index: number, field: keyof Turnos, value: string) => {
+    const novoTurno = [...turno]
+    novoTurno[index][field] = value
+    setTurnos(novoTurno)
+  }
 
   return (
     <div>
       <MenuPage />
-      <div style={ { marginLeft: '256px', padding: '20px' } }>
-        <h1 className='titulo-gradiente'>Horas Trabalhadas</h1>
-        <label style={ { display: 'block', marginBottom: '4px' } }>
-          <MaskedInput
-            mask={ Number }
-            maskOptions={ {
-              lazy: true
-            } }
-            placeholder='Digite a quantidade de minutos'
-            size='large'
-            value={ value }
-            onChange={ e => setValue( e.target.value ) }
-          />
-        </label>
-        <button className='button-calculate' onClick={ () => calcular( value ) }>Calcular</button>
-        <div className='divMinuteToHour'> Resultados:
-          <ul style={ { listStyleType: 'none' } }>
-            { result.map( ( item, index ) => (
-              <li key={ index }>{ item.qtdMin } - { item.horas }:{ item.minutos }</li>
-            ) ) }
-          </ul>
-        </div>
+      <div style={{ marginLeft: '256px', padding: '20px' }}>
+        <h1 className="titulo-gradiente">Horas Trabalhadas</h1>
       </div>
+
+      {turno.map((turnos, index) => (
+        <div key={index}>
+          <input
+            type="time"
+            value={turnos.entrada}
+            onChange={(e) => handleAddTurno(index, 'entrada', e.target.value)}
+          />
+          <input
+            type="time"
+            value={turnos.saida}
+            onChange={(e) => handleAddTurno(index, 'saida', e.target.value)}
+          />
+        </div>
+      ))}
+    
+      <button onClick={addTurno}>Adicionar</button>
     </div>
   )
 }
