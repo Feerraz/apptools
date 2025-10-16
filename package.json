@@ -11,13 +11,8 @@
   "dependencies": {
     "antd": "^5.26.5",
     "antd-imask-input": "^1.1.0",
-<<<<<<< HEAD
-    "firebase": "^12.1.0",
-    "firebase-tools": "^14.12.0",
-=======
     "firebase": "^12.3.0",
     "firebase-tools": "^14.17.0",
->>>>>>> 917ca1c (firebase config)
     "imask": "^7.6.1",
     "next": "15.4.1",
     "react": "19.1.0",

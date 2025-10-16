@@ -1,8 +1,7 @@
-import MenuPage from '../menu'
+import MenuPage from '@/src/pages'
 import { MaskedInput } from 'antd-imask-input'
 import { useState } from 'react'
 import { Hours } from '@/src/types/hours'
-import { Input } from 'antd'
 
 function Index() {
 
@@ -35,8 +34,8 @@ function Index() {
     <div>
       <MenuPage />
       <div style={ { marginLeft: '256px', padding: '20px' } }>
-        <h1 className='titulo-gradiente'>Calculadora de Horas</h1>
-        <label style={ { display: 'flex', marginBottom: '4px', maxWidth: '500px' } }>
+        <h1 className='titulo-gradiente'>Minutos para Horas</h1>
+        <label style={ { display: 'block', marginBottom: '4px' } }>
           <MaskedInput
             mask={ Number }
             maskOptions={ {
@@ -46,21 +45,15 @@ function Index() {
             size='large'
             value={ value }
             onChange={ e => setValue( e.target.value ) }
-          />
-          <Input
-            placeholder='Resultado'
-            size='large'
-            value={ value }
-            onChange={ e => setValue( e.target.value ) }
+            onKeyDown={ e => {
+              if
+                ( e.key === 'Enter' ||
+                e.key === 'Tab'
+              ) { calcular( value ) }
+            } }
           />
         </label>
-        <div style={ {} }>
-          <button className='button-calculate' onClick={ () => calcular( value ) }>+</button>
-          <button className='button-calculate' onClick={ () => calcular( value ) }>-</button>
-          <button className='button-calculate' onClick={ () => calcular( value ) }>*</button>
-          <button className='button-calculate' onClick={ () => calcular( value ) }>/</button>
-          <button className='button-calculate' onClick={ () => calcular( value ) }>Calcular</button>
-        </div>
+        <button className='button-calculate' onClick={ () => calcular( value ) }>Calcular</button>
         <div className='divMinuteToHour'> Resultados:
           <ul style={ { listStyleType: 'none' } }>
             { result.map( ( item, index ) => (
@@ -70,6 +63,7 @@ function Index() {
         </div>
       </div>
     </div>
+    
   )
 }
 
