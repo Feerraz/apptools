@@ -9,7 +9,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 .titulo-gradiente {
   font-size: 42px;
   font-weight: 700;
@@ -25,15 +24,12 @@ body {
   margin-bottom: 30px;
 }
 
-
-
 .divMinuteToHour {
   font-size: 20px;
   text-align: left;
   display: solid;
   background-color: #f7f7f7; 
 }
-
 
 .button-calculate {
   background-color: #333333;      
@@ -60,4 +56,9 @@ body {
 .button-calculate:active {
   background-color: #222222;      
   box-shadow: inset 0 3px 5px rgba(0,0,0,0.4);
+}
+
+.custom-sider .ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
 }

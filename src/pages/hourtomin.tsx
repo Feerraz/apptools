@@ -1,19 +1,17 @@
-import MenuPage from '@/src/pages'
+import MenuPage from '@/pages/mintohour'
 import { MaskedInput } from 'antd-imask-input'
 import { useState } from 'react'
-import { Hours } from '@/src/types/hours'
+import { Minutes } from '@/types/minutes'
 
 function Index() {
 
   const [ value, setValue ] = useState( '' )
-  const [ result, setResult ] = useState<Hours>( [] )
+  const [ result, setResult ] = useState<Minutes>( [] )
 
   const calcular = ( value: string ) => {
-    const qtdHour = Math.floor( Number( value ) / 60 )
-    const qtdMin = Number( value ) % 60
+    const hor = value.split( ':' )
 
-    const horaStr = String( qtdHour ).padStart( 2, '0' )
-    const minStr = String( qtdMin ).padStart( 2, '0' )
+    const minutos = ( ( parseInt( hor[ 0 ] ) * 60 ) + ( parseInt( hor[ 1 ] ) ) ).toString()
 
     if ( value == '' ) {
       return
@@ -22,34 +20,32 @@ function Index() {
     return (
       setResult( result => [ ...result,
       {
-        horas: horaStr,
-        minutos: minStr,
-        qtdMin: value
+        minutos: minutos,
+        qtdHour: value
       } ] )
+
     )
   }
-
 
   return (
     <div>
       <MenuPage />
       <div style={ { marginLeft: '256px', padding: '20px' } }>
-        <h1 className='titulo-gradiente'>Minutos para Horas</h1>
+        <h1 className='titulo-gradiente'>Horas para minutos</h1>
         <label style={ { display: 'block', marginBottom: '4px' } }>
           <MaskedInput
-            mask={ Number }
+            mask={ '000:00' }
             maskOptions={ {
               lazy: true
             } }
-            placeholder='Digite a quantidade de minutos'
+            placeholder='Digite a quantidade de horas'
             size='large'
-            value={ value }
+            value={ value.padStart( 1, '0' ) }
             onChange={ e => setValue( e.target.value ) }
             onKeyDown={ e => {
-              if
-                ( e.key === 'Enter' ||
-                e.key === 'Tab'
-              ) { calcular( value ) }
+              if ( e.key === 'Enter' || e.key === 'Tab' ) {
+                calcular( value )
+              }
             } }
           />
         </label>
@@ -57,13 +53,12 @@ function Index() {
         <div className='divMinuteToHour'> Resultados:
           <ul style={ { listStyleType: 'none' } }>
             { result.map( ( item, index ) => (
-              <li key={ index }>{ item.qtdMin } - { item.horas }:{ item.minutos }</li>
+              <li key={ index }>{ item.qtdHour } - { item.minutos } minutos</li>
             ) ) }
           </ul>
         </div>
       </div>
     </div>
-    
   )
 }
 
