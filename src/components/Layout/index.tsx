@@ -99,17 +99,19 @@ function Index( {
         Horas para Minutos
       </Link>
     } ]
-  }, {
-    key: 'calchour',
-    icon: <Icon
-      icon={ 'TbClockPlus' }
-    />,
-    label: <Link
-      href='/calchour'
-    >
-      Calculadora de Horas
-    </Link>
-  } ]
+  } 
+  // {
+  //   key: 'calchour',
+  //   icon: <Icon
+  //     icon={ 'TbClockPlus' }
+  //   />,
+  //   label: <Link
+  //     href='/calchour'
+  //   >
+  //     Calculadora de Horas
+  //   </Link>
+  // } 
+]
 
   /**
    * Handle toggle theme events

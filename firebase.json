@@ -1,10 +1,6 @@
 {
   "hosting": {
-<<<<<<< HEAD
-    "site": "apptools-ncinfo",
-    "public": "public"
-=======
-    "public": "out",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -16,6 +12,5 @@
         "destination": "/index.html"
       }
     ]
->>>>>>> 917ca1c (firebase config)
   }
 }
