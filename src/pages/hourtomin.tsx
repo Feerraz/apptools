@@ -1,12 +1,19 @@
 import {
   useEffect,
+  useRef,
   useState
 } from 'react'
 import {
   Button,
-  Flex
+  Flex,
+  GetProp,
+  InputProps
 } from 'antd'
-import { MaskedInput } from 'antd-imask-input'
+import {
+  IMask,
+  MaskedInput,
+  OnChangeEvent
+} from 'antd-imask-input'
 
 // contexts
 import { useTheme } from '@/contexts/theme'
@@ -15,19 +22,31 @@ import {
   useResults
 } from '@/contexts/results'
 
-
 // components
 import PageHeader from '@/components/Header'
+import { MaskedPattern } from 'imask'
 
 function Index() {
-
   const { setHeader } = useTheme()
   const { addResult } = useResults()
   const [
     value,
     setValue
-  ] = useState<string>( '' )
-
+  ] = useState<OnChangeEvent>()
+  const [
+    inputStatus,
+    setInputStatus
+  ] = useState<GetProp<InputProps, 'status'>>()
+  const valueValid = useRef( false )
+  const rangeMask: Partial<MaskedPattern> = {
+    blocks: {
+      mm: {
+        mask: IMask.MaskedRange,
+        from: 0,
+        to: 59
+      }
+    }
+  }
 
   useEffect( () => {
     setHeader( () => <PageHeader
@@ -36,20 +55,29 @@ function Index() {
   }, [] )
 
   function handleCalculate() {
+    if ( !valueValid.current ) {
+      setInputStatus( () => 'error' )
+      return
+    }
 
-    if ( !value.includes( ':' ) ) return
-
-    const hor = value.split( ':' )
-    const minutos = ( ( parseInt( hor[ 0 ] ) * 60 ) + ( parseInt( hor[ 1 ] ) ) ).toString()
+    const { maskedValue } = value!
+    const [ hor, min ] = maskedValue.split( ':' )
+    const minutos = ( ( parseInt( hor ) * 60 ) + parseInt( min ) ).toString()
 
     addResult( {
       op: OperationType.hourtomin,
       res: String( minutos ),
-      a: value
+      a: value!.maskedValue
     } )
-    setValue( () => '' )
+    setValue( () => undefined )
   }
 
+  function validateInput( {
+    maskedValue
+  }: OnChangeEvent ) {
+    setInputStatus( () => undefined )
+    valueValid.current = maskedValue.includes( ':' )
+  }
 
   return (
     <Flex
@@ -58,15 +86,41 @@ function Index() {
     >
       <MaskedInput
         allowClear
+        status={ inputStatus }
         onPressEnter={ handleCalculate }
         maskOptions={ {
-          mask: '000:00',
-          lazy: true
+          mask: [ {
+            mask: '\\0\\0`:\\00',
+          }, {
+            mask: '\\0\\0`:mm',
+            ...rangeMask
+          }, {
+            mask: '\\00`:mm',
+            ...rangeMask
+          }, {
+            mask: '00`:mm',
+            ...rangeMask
+          }, {
+            mask: '000:mm',
+            ...rangeMask
+          }, {
+            mask: '0000:mm',
+            ...rangeMask
+          }, {
+            mask: '00000:mm',
+            ...rangeMask
+          }, {
+            mask: '000000:mm',
+            ...rangeMask
+          } ]
         } }
-        placeholder='Horas (hh:mm)'
+        placeholder='Horas'
         size='large'
-        value={ value }
-        onChange={ ( { maskedValue } ) => setValue( () => maskedValue ) }
+        value={ value?.maskedValue }
+        onChange={ ( change ) => {
+          validateInput( change )
+          setValue( () => change )
+        } }
       />
 
       <Button
