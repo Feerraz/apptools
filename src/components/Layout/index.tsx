@@ -98,20 +98,34 @@ function Index( {
       >
         Horas para Minutos
       </Link>
+    }, {
+      key: 'mintonot',
+      label: <Link
+        href='/mintonot'
+      >
+        Minutos Noturnos
+      </Link>
+    }, {
+      key: 'hourtonot',
+      label: <Link
+        href='/hourtonot'
+      >
+        Horas Noturnas
+      </Link>
     } ]
-  } 
-  // {
-  //   key: 'calchour',
-  //   icon: <Icon
-  //     icon={ 'TbClockPlus' }
-  //   />,
-  //   label: <Link
-  //     href='/calchour'
-  //   >
-  //     Calculadora de Horas
-  //   </Link>
-  // } 
-]
+  },
+  {
+    key: 'calchours',
+    icon: <Icon
+      icon={ 'TbClockPlus' }
+    />,
+    label: <Link
+      href='/calchours'
+    >
+      Calculadora de Horas
+    </Link>
+  }
+  ]
 
   /**
    * Handle toggle theme events

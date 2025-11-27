@@ -17,8 +17,11 @@ type ContextType = {
 export enum OperationType {
   hourtomin = 'Horas para minutos',
   mintohour = 'Minutos para horas',
+  hourtonot = 'Horas Noturnas',
+  mintonot = 'Minutos Noturnos',
   sumhour = 'Soma de horas',
-  subtracthour = 'Sutrair horas'
+  subtracthour = 'Sutrair horas',
+  calchours = 'Calculadora de horas'
 }
 type ResultsType = {
   /** operation */
