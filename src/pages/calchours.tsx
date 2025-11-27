@@ -1,6 +1,5 @@
 import {
   useEffect,
-  useRef,
   useState
 } from 'react'
 import {
@@ -30,8 +29,8 @@ function Index() {
   const { setHeader } = useTheme()
   const { addResult } = useResults()
   const [
-    value,
-    setValue
+    firstValue,
+    setFirstValue
   ] = useState<OnChangeEvent>()
   const [
     secondValue,
@@ -41,8 +40,6 @@ function Index() {
     inputStatus,
     setInputStatus
   ] = useState<GetProp<InputProps, 'status'>>()
-  const [ total, setTotal ] = useState<number>( 0 )
-  const valueValid = useRef( false )
   const rangeMask: Partial<MaskedPattern> = {
     blocks: {
       mm: {
@@ -52,6 +49,18 @@ function Index() {
       }
     }
   }
+  const hourMask = {
+    mask: [
+      { mask: '\\0\\0`:\\00' },
+      { mask: '\\0\\0`:mm', ...rangeMask },
+      { mask: '\\00`:mm', ...rangeMask },
+      { mask: '00`:mm', ...rangeMask },
+      { mask: '000:mm', ...rangeMask },
+      { mask: '0000:mm', ...rangeMask },
+      { mask: '00000:mm', ...rangeMask },
+      { mask: '000000:mm', ...rangeMask },
+    ]
+  }
 
   useEffect( () => {
     setHeader( () => <PageHeader
@@ -59,53 +68,41 @@ function Index() {
     /> )
   }, [] )
 
-  function handleCalculate( op: '+' | '-' | '*' | '/' ) {
-    if ( !valueValid.current ) {
-      setInputStatus( () => 'error' )
+
+  function handleCalculate( op: '+' | '-' ) {
+    if ( !firstValue?.maskedValue.includes( ':' )
+      || !secondValue?.maskedValue.includes( ':' ) ) {
+      setInputStatus( 'error' )
       return
     }
-
-    const { maskedValue } = value!
-    const [ hor, min ] = maskedValue.split( ':' )
-    const minutos = ( ( parseInt( hor ) * 60 ) + parseInt( min ) )
+    const { maskedValue } = firstValue!
+    const [ hor1, min1 ] = maskedValue.split( ':' )
+    const totMin1 = ( ( parseInt( hor1 ) * 60 ) + parseInt( min1 ) )
 
     const { maskedValue: secondMaskedValue } = secondValue!
-    const [ secondHor, secondMin ] = secondMaskedValue.split( ':' )
-    const secondMinutos = ( ( parseInt( secondHor ) * 60 ) + parseInt( secondMin ) )
+    const [ hor2, min2 ] = secondMaskedValue.split( ':' )
+    const totMin2 = ( ( parseInt( hor2 ) * 60 ) + parseInt( min2 ) )
 
-    switch ( op ) {
-      case '+':
-        setTotal( minutos + secondMinutos )
-        break
-      case '-':
-        setTotal( minutos - secondMinutos )
-        break
-      case '*':
-        setTotal( minutos * secondMinutos )
-        break
-      case '/':
-        setTotal( minutos / secondMinutos )
-        break
-    }
+    const resultado = ( () => {
+      switch ( op ) {
+        case '+': return totMin1 + totMin2
+        case '-': return totMin1 - totMin2
+        default: return totMin1
+      }
+    } )()
 
-    const horas = `${ Math.floor( total / 60 ) }`.padStart( 2, '0' )
-    const minutos2 = `${ total % 60 }`.padStart( 2, '0' )
-
+    const horas = `${ Math.floor( resultado / 60 ) }`.padStart( 2, '0' )
+    const minutos = `${ resultado % 60 }`.padStart( 2, '0' )
 
     addResult( {
       op: OperationType.hourtomin,
-      res: `${ horas }:${ minutos2 }`,
-      a: value!.maskedValue,
+      res: `${ horas }:${ minutos }`,
+      a: firstValue!.maskedValue,
       b: secondValue!.maskedValue
     } )
-    setValue( () => undefined )
-  }
-
-  function validateInput( {
-    maskedValue
-  }: OnChangeEvent ) {
-    setInputStatus( () => undefined )
-    valueValid.current = maskedValue.includes( ':' )
+    setFirstValue( () => undefined )
+    setSecondValue( () => undefined )
+    setInputStatus( 'success' )
   }
 
   return (
@@ -116,103 +113,37 @@ function Index() {
       <MaskedInput
         allowClear
         status={ inputStatus }
-        // onPressEnter={ handleCalculate }
-        maskOptions={ {
-          mask: [ {
-            mask: '\\0\\0`:\\00',
-          }, {
-            mask: '\\0\\0`:mm',
-            ...rangeMask
-          }, {
-            mask: '\\00`:mm',
-            ...rangeMask
-          }, {
-            mask: '00`:mm',
-            ...rangeMask
-          }, {
-            mask: '000:mm',
-            ...rangeMask
-          }, {
-            mask: '0000:mm',
-            ...rangeMask
-          }, {
-            mask: '00000:mm',
-            ...rangeMask
-          }, {
-            mask: '000000:mm',
-            ...rangeMask
-          } ]
-        } }
+        maskOptions={ hourMask }
         placeholder='Valor 1'
         size='large'
-        value={ value?.maskedValue }
+        value={ firstValue?.maskedValue
+        }
         onChange={ ( change ) => {
-          validateInput( change )
-          setValue( () => change )
+          setFirstValue( () => change )
         } }
       />
       <MaskedInput
         allowClear
         status={ inputStatus }
-        // onPressEnter={ handleCalculate }
-        maskOptions={ {
-          mask: [ {
-            mask: '\\0\\0`:\\00',
-          }, {
-            mask: '\\0\\0`:mm',
-            ...rangeMask
-          }, {
-            mask: '\\00`:mm',
-            ...rangeMask
-          }, {
-            mask: '00`:mm',
-            ...rangeMask
-          }, {
-            mask: '000:mm',
-            ...rangeMask
-          }, {
-            mask: '0000:mm',
-            ...rangeMask
-          }, {
-            mask: '00000:mm',
-            ...rangeMask
-          }, {
-            mask: '000000:mm',
-            ...rangeMask
-          } ]
-        } }
+        maskOptions={ hourMask }
         placeholder='Valor 2'
         size='large'
         value={ secondValue?.maskedValue }
         onChange={ ( change ) => {
-          validateInput( change )
           setSecondValue( () => change )
         } }
       />
-
       <Button
         type='primary'
         onClick={ () => handleCalculate( '+' ) }
       >
-        +
+        Somar (+)
       </Button>
       <Button
         type='primary'
         onClick={ () => handleCalculate( '-' ) }
       >
-        -
-      </Button>
-      <Button
-        type='primary'
-        onClick={ () => handleCalculate( '*' ) }
-      >
-        *
-      </Button>
-      <Button
-        type='primary'
-        onClick={ () => handleCalculate( '/' ) }
-      >
-        /
+        Subtrair (-)
       </Button>
     </Flex>
   )
